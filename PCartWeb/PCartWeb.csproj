@@ -295,6 +295,10 @@
     <Compile Include="WebApiController\WebapiController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-PCartWeb-20210713064462.mdf" />
+    <Content Include="App_Data\aspnet-PCartWeb-20210713064462_log.ldf">
+      <DependentUpon>aspnet-PCartWeb-20210713064462.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -569,7 +573,6 @@
     <Content Include="Views\Paypalpayable\SuccessView.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="obj\" />
     <Folder Include="Receipts\" />
