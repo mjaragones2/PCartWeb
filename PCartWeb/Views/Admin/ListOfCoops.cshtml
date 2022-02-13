@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<PCartWeb.Models.CoopDetailsModel>
 
-@{
-    ViewBag.Title = "ListOfCoops";
-}
+@{ ViewBag.Title = "ListOfCoops"; }
 
 <h4>List of Coops</h4>
 <hr />
@@ -15,6 +13,14 @@
         }
     </style>
 </head>
+
+@using (Html.BeginForm("ConvertThisPageToPdf", "Admin", FormMethod.Post, new { id = "convertForm" }))
+{
+    <div id="convertThisPageButtonDiv">
+        <input type="submit" value="Convert
+                        This Page To PDF" />
+    </div>
+
 
 <div class="table-responsive table-hover">
     <table class="table">
@@ -39,35 +45,33 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CoopName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contact)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Coop_Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Coop_Updated)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "DetailsCoopReq", new { id = item.Id }) |
-                    @if (item.IsLocked == "Unlock")
-                    {
-                        @Html.ActionLink("Lock", "LockCoop", new { id = item.Id })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Unlock", "UnlockCoop", new { id = item.Id })
-                    }
-                </td>
-            </tr>
-        }
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.CoopName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Contact)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Coop_Created)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Coop_Updated)
+    </td>
+    <td>
+        @Html.ActionLink("Details", "DetailsCoopReq", new { id = item.Id }) |
+        @if (item.IsLocked == "Unlock")
+        {
+@Html.ActionLink("Lock", "LockCoop", new { id = item.Id }) }
+                else
+                {
+@Html.ActionLink("Unlock", "UnlockCoop", new { id = item.Id })}
+    </td>
+</tr>}
 
     </table>
 </div>
+}

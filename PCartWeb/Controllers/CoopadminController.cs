@@ -5277,9 +5277,11 @@ namespace PCartWeb.Controllers
             return stringWriter.ToString();
         }
 
+        [HttpPost]
         public ActionResult ConvertableToPDF()
         {
             // get the HTML code of this view
+
             string htmlToConvert = RenderViewAsString("ViewCoopSales", null);
 
             // the base URL to resolve relative images and css
@@ -5298,7 +5300,7 @@ namespace PCartWeb.Controllers
 
             // send the PDF file to browser
             FileResult fileResult = new FileContentResult(pdfBuffer, "application/pdf");
-            fileResult.FileDownloadName = "ThisMvcViewToPdf.pdf";
+            fileResult.FileDownloadName = "CoopSales.pdf";
 
             return fileResult;
 
