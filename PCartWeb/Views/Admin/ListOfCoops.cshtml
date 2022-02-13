@@ -40,7 +40,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Coop_Updated)
             </th>
-            <th></th>
+            <th id="hid1"></th>
         </tr>
 
         @foreach (var item in Model)
@@ -61,7 +61,7 @@
     <td>
         @Html.DisplayFor(modelItem => item.Coop_Updated)
     </td>
-    <td>
+    <td id="hid2">
         @Html.ActionLink("Details", "DetailsCoopReq", new { id = item.Id }) |
         @if (item.IsLocked == "Unlock")
         {

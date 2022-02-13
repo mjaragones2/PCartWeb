@@ -159,7 +159,7 @@ namespace PCartWeb.Controllers
             HtmlToPdf htmlToPdfConverter = new HtmlToPdf();
 
             // hide the button in the created PDF
-            htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv" };
+            htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv", "#navbarid", "#hid1", "#hid2" };
 
             // render the HTML code as PDF in memory
             byte[] pdfBuffer = htmlToPdfConverter.ConvertHtmlToMemory(htmlToConvert, baseUrl);
