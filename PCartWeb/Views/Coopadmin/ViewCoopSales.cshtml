@@ -41,71 +41,75 @@
     @Html.ActionLink("Export to Excel", "Reports", new { ReportType = "Excel" }) |
     @Html.ActionLink("Export to Word", "Reports", new { ReportType = "Word" })*@
 
-@using (Html.BeginForm("ConvertableToPDF", "Coopadmin", FormMethod.Post, new { id = "convertForm" }))
-                {
+@using (Html.BeginForm("ConvertableToPDF", "Coopadmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "convertForm" }))
+{
 <div id="convertThisPageButtonDiv">
     <input type="submit" value="Convert This Page To PDF" class="btn btn-danger" />
-    <input type="hidden" value="" id="thedate" name="toshow"/>
+    <input type="hidden" value="@ViewBag.ViewBy" id="thedate" name="toshow" />
 </div> if (Model.SalesReports != null)
-                    {
-<div class="table-responsive table-hover">
-    <table class="table">
-        <tr class="bg-dark">
-            <th>
-                Order No.
-            </th>
-            <th>
-                COOP Name
-            </th>
-            <th>
-                Customer Name
-            </th>
-            <th>
-                Address
-            </th>
-            <th>
-                Total Amount
-            </th>
-            <th>
-                Commision Fee
-            </th>
-            <th>
-                Delivery Fee
-            </th>
-            <th></th>
-        </tr>
+{
+<script>
+    var selected = document.querySelector('input[name="ViewBy"]:checked').value;
+    $('#thedate').val(selected);
+</script>
 
-        @foreach (var item in Model.SalesReports)
-        {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderNo)
-    </td>
-    <th>
-        @Html.DisplayFor(modelItem => item.CoopName)
-    </th>
-    <td>
-        @Html.DisplayFor(modelItem => item.CustomerName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Address)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TotalAmount)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CommisionFee)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Delivery_fee)
-    </td>
-</tr>
-}
-    </table>
-</div> }
+        <div class="table-responsive table-hover">
+            <table class="table">
+                <tr class="bg-dark">
+                    <th>
+                        Order No.
+                    </th>
+                    <th>
+                        COOP Name
+                    </th>
+                    <th>
+                        Customer Name
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th>
+                        Total Amount
+                    </th>
+                    <th>
+                        Commision Fee
+                    </th>
+                    <th>
+                        Delivery Fee
+                    </th>
+                    <th></th>
+                </tr>
 
-                    if (Model.ViewBySales != null)
-                    {
+            @foreach (var item in Model.SalesReports)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderNo)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.CoopName)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CommisionFee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Delivery_fee)
+                    </td>
+                </tr>}
+                        </table>
+                    </div> }
+
+                if (Model.ViewBySales != null)
+                {
 <div class="table-responsive table-hover">
     <table class="table">
         <tr class="bg-dark">
@@ -133,13 +137,10 @@
     <td>
         @Html.DisplayFor(modelItem => item.TotalPrice)
     </td>
-</tr>
-}
+</tr>}
     </table>
 </div>}
 
-    <script>
 
-    </script>
 }
 

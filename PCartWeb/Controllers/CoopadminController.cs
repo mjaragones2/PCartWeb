@@ -5058,7 +5058,10 @@ namespace PCartWeb.Controllers
             List<string> date = new List<string>();
             decimal total = 0;
             var coop_id = 0;
-
+            if(model.ViewBy != null)
+            {
+                ViewBag.ViewBy = model.ViewBy;
+            }
             if (model.ViewBy != null && model.ViewBy == "Yearly")
             {
                 foreach (var order in userOrders)
@@ -5281,29 +5284,199 @@ namespace PCartWeb.Controllers
         public ActionResult ConvertableToPDF()
         {
             // get the HTML code of this view
+            string selected = Request["toshow"];
+            var db = new ApplicationDbContext();
+            ViewSalesReport model = new ViewSalesReport();
+            List<SalesReport> orderlist = new List<SalesReport>();
+            List<ViewBySale> viewBySale = new List<ViewBySale>();
+            List<UserOrder> userOrders = GetUserOrders();
+            List<ProdOrder> prodOrders = GetProdOrders();
+            List<UserVoucherUsed> voucherUsed = GetVoucherUsed();
+            List<string> date = new List<string>();
+            decimal total = 0;
+            var coop_id = 0;
 
-            string htmlToConvert = RenderViewAsString("ViewCoopSales", null);
+            try
+            {
+                if (String.IsNullOrEmpty(selected) && selected == "Yearly")
+                {
+                    foreach (var order in userOrders)
+                    {
+                        CultureInfo culture = new CultureInfo("es-ES");
+                        DateTime getdate = Convert.ToDateTime(order.OrderCreated_at, CultureInfo.CurrentCulture);
+                        var year = getdate.Year;
 
-            // the base URL to resolve relative images and css
-            String thisPageUrl = this.ControllerContext.HttpContext.Request.Url.AbsoluteUri;
-            String baseUrl = thisPageUrl.Substring(0, thisPageUrl.Length - "Coopadmin/ConvertableToPDF".Length);
+                        total = order.TotalPrice;
 
-            // instantiate the HiQPdf HTML to PDF converter
-            HtmlToPdf htmlToPdfConverter = new HtmlToPdf();
-            // hide the button in the created PDF
-            htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv" };
+                        if (!date.Contains(year.ToString()))
+                        {
+                            date.Add(year.ToString());
+                            var coopDetails = db.CoopDetails.Where(c => c.Id == order.CoopId).FirstOrDefault();
 
-            htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv2" };
+                            viewBySale.Add(new ViewBySale
+                            {
+                                CoopId = order.CoopId,
+                                CoopName = coopDetails.CoopName,
+                                Date = year.ToString(),
+                                TotalPrice = total,
+                            });
+                        }
+                        else
+                        {
+                            foreach (var view in viewBySale)
+                            {
+                                if (view.Date == year.ToString() && view.CoopId == coop_id)
+                                {
+                                    view.TotalPrice += total;
+                                }
+                            }
+                        }
+                    }
 
-            // render the HTML code as PDF in memory
-            byte[] pdfBuffer = htmlToPdfConverter.ConvertHtmlToMemory(htmlToConvert, baseUrl);
+                    total = 0;
+                    date.Clear();
+                    orderlist = null;
+                }
+                else if (selected != null && selected == "Monthly")
+                {
+                    foreach (var order in userOrders)
+                    {
+                        CultureInfo culture = new CultureInfo("es-ES");
+                        DateTime getdate = Convert.ToDateTime(order.OrderCreated_at, CultureInfo.CurrentCulture);
+                        var month = getdate.Month;
+                        var year = getdate.Year;
+                        var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
 
-            // send the PDF file to browser
-            FileResult fileResult = new FileContentResult(pdfBuffer, "application/pdf");
-            fileResult.FileDownloadName = "CoopSales.pdf";
+                        total = order.TotalPrice;
+                        coop_id = order.CoopId;
 
-            return fileResult;
+                        if (!date.Contains(monthName + " " + year.ToString()))
+                        {
+                            date.Add(monthName + " " + year.ToString());
 
+                            var coopDetails = db.CoopDetails.Where(c => c.Id == order.CoopId).FirstOrDefault();
+                            viewBySale.Add(new ViewBySale
+                            {
+                                CoopId = order.CoopId,
+                                CoopName = coopDetails.CoopName,
+                                Date = monthName + " " + year.ToString(),
+                                TotalPrice = total,
+                            });
+                        }
+                        else
+                        {
+                            foreach (var view in viewBySale)
+                            {
+                                if (view.Date == monthName + " " + year.ToString() && view.CoopId == coop_id)
+                                {
+                                    view.TotalPrice += total;
+                                }
+                            }
+                        }
+                    }
+
+                    total = 0;
+                    date.Clear();
+                    orderlist = null;
+                }
+                else if (selected != null && selected == "Weekly")
+                {
+                    foreach (var order in userOrders)
+                    {
+                        CultureInfo culture = new CultureInfo("es-ES");
+                        DateTime getdate = Convert.ToDateTime(order.OrderCreated_at, CultureInfo.CurrentCulture);
+                        //DateTime getdate = DateTime.Parse(order.OrderCreated_at, culture);
+                        var week = GetWeekNumberOfMonth(getdate);
+                        var month = getdate.Month;
+                        var year = getdate.Year;
+                        var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+
+                        total = order.TotalPrice;
+                        coop_id = order.CoopId;
+
+                        if (!date.Contains("Week " + week + " of " + monthName + " " + year.ToString()))
+                        {
+                            date.Add("Week " + week + " of " + monthName + " " + year.ToString());
+
+                            var coopDetails = db.CoopDetails.Where(c => c.Id == order.CoopId).FirstOrDefault();
+                            viewBySale.Add(new ViewBySale
+                            {
+                                CoopId = order.CoopId,
+                                CoopName = coopDetails.CoopName,
+                                Date = "Week " + week + " of " + monthName + " " + year.ToString(),
+                                TotalPrice = total,
+                            });
+                        }
+                        else
+                        {
+                            foreach (var view in viewBySale)
+                            {
+                                if (view.Date == "Week " + week + " of " + monthName + " " + year.ToString() && view.CoopId == coop_id)
+                                {
+                                    view.TotalPrice += total;
+                                }
+                            }
+                        }
+                    }
+
+                    total = 0;
+                    date.Clear();
+                    orderlist = null;
+                }
+                else
+                {
+                    foreach (var order in userOrders)
+                    {
+                        var customer = db.UserDetails.Where(c => c.AccountId == order.UserId).FirstOrDefault();
+                        var prodorder = db.ProdOrders.Where(x => x.UOrderId == order.Id.ToString()).ToList();
+                        var coopDetails = db.CoopDetails.Where(c => c.Id == order.CoopId).FirstOrDefault();
+
+                        orderlist.Add(new SalesReport
+                        {
+                            OrderNo = order.Id.ToString(),
+                            TotalAmount = order.TotalPrice - order.CommissionFee,
+                            CommisionFee = order.CommissionFee,
+                            CoopName = coopDetails.CoopName,
+                            CustomerName = customer.Firstname + " " + customer.Lastname,
+                            Contact = customer.Contact,
+                            Address = customer.Address,
+                            Delivery_fee = order.Delivery_fee.ToString(),
+                        });
+                    }
+
+                    viewBySale = null;
+                }
+
+                model.SalesReports = orderlist;
+                model.ViewBySales = viewBySale;
+
+                string htmlToConvert = RenderViewAsString("ViewCoopSales", model);
+
+                // the base URL to resolve relative images and css
+                String thisPageUrl = this.ControllerContext.HttpContext.Request.Url.AbsoluteUri;
+                String baseUrl = thisPageUrl.Substring(0, thisPageUrl.Length - "Coopadmin/ConvertableToPDF".Length);
+
+                // instantiate the HiQPdf HTML to PDF converter
+                HtmlToPdf htmlToPdfConverter = new HtmlToPdf();
+                // hide the button in the created PDF
+                htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv" };
+
+                htmlToPdfConverter.HiddenHtmlElements = new string[] { "#convertThisPageButtonDiv2" };
+
+                // render the HTML code as PDF in memory
+                byte[] pdfBuffer = htmlToPdfConverter.ConvertHtmlToMemory(htmlToConvert, baseUrl);
+
+                // send the PDF file to browser
+                FileResult fileResult = new FileContentResult(pdfBuffer, "application/pdf");
+                fileResult.FileDownloadName = "CoopSales.pdf";
+
+
+                return fileResult;
+            }
+            catch(Exception ex)
+            {
+                return RedirectToAction("ViewCoopSales");
+            }
         }
 
         public ActionResult PendingTransactions()
