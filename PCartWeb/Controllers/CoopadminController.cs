@@ -5298,7 +5298,7 @@ namespace PCartWeb.Controllers
 
             try
             {
-                if (String.IsNullOrEmpty(selected) && selected == "Yearly")
+                if (!String.IsNullOrEmpty(selected) && selected == "Yearly")
                 {
                     foreach (var order in userOrders)
                     {
@@ -5337,7 +5337,7 @@ namespace PCartWeb.Controllers
                     date.Clear();
                     orderlist = null;
                 }
-                else if (selected != null && selected == "Monthly")
+                else if (!String.IsNullOrEmpty(selected) && selected == "Monthly")
                 {
                     foreach (var order in userOrders)
                     {
@@ -5379,7 +5379,7 @@ namespace PCartWeb.Controllers
                     date.Clear();
                     orderlist = null;
                 }
-                else if (selected != null && selected == "Weekly")
+                else if (!String.IsNullOrEmpty(selected) && selected == "Weekly")
                 {
                     foreach (var order in userOrders)
                     {

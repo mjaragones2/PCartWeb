@@ -92,9 +92,9 @@
                             <a class="dropdown-item" href="~/Admin/WithdrawPendingsReport">Coop Withdraw Requests</a>
                         </div>
                     </li>
-                    <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Admin", new { area = "" }, new { @class = "nav-link" }) </li>
+                    <li class="nav-item"><span class="badge badge-light" id="numOfNotifications">0</span></li>
                 </ul>
-                <p id="numOfNotifications">0</p>
             }
             else if (User.IsInRole("Member"))
             {
@@ -103,6 +103,7 @@
                     <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item"><span class="badge badge-light" id="numOfNotifications">0</span></li>
                     <li class="nav-item">@Html.ActionLink("Inbox", "InboxChat", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("E-Wallet History", "ViewEwalletHistory", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Product Proposals", "ProductListRequests", "Member", new { area = "" }, new { @class = "nav-link" })</li>
@@ -115,10 +116,11 @@
                     <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item"><span class="badge badge-light" id="numOfNotifications">0</span></li>
                     <li class="nav-item">@Html.ActionLink("Inbox", "InboxChat", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("E-Wallet History", "ViewEwalletHistory", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
-                <p id="numOfNotifications">0</p>
+                
             }
             else if (User.IsInRole("Coop Admin"))
             {
@@ -159,10 +161,11 @@
                             <a class="dropdown-item" href="~/Coopadmin/ViewEwalletHistory">E-Wallet History</a>
                         </div>
                     </li>
-                    <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Coopadmin", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Coopadmin", new { area = "" }, new { @class = "nav-link" }) </li>
+                    <li class="nav-item"><span class="badge badge-light" id="numOfNotifications">0</span></li>
                     <li class="nav-item">@Html.ActionLink("Inbox", "InboxChat", "Coopadmin", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
-                <p id="numOfNotifications">0</p>
+                
             }
             else if (User.IsInRole("Driver"))
             {
@@ -172,8 +175,9 @@
                     <li class="nav-item">@Html.ActionLink("To Be Delivered", "ToBeDeliveredLists", "Driver", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Delivery History", "DeliveryHistory", "Driver", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Notifications", "ViewNotification", "Driver", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item"><span class="badge badge-light" id="numOfNotifications">0</span></li>
                 </ul>
-                <p id="numOfNotifications">0</p>
+                
             }
             else
             {
