@@ -5216,6 +5216,12 @@ namespace PCartWeb.Controllers
             return View(model);
         }
 
+        public ActionResult SalesBreakdownRep()
+        {
+
+            return View();
+        }
+
         static int GetWeekNumberOfMonth(DateTime date)
         {
             date = date.Date;

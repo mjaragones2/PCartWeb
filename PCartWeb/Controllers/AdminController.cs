@@ -148,7 +148,7 @@ namespace PCartWeb.Controllers
         {
             var db = new ApplicationDbContext();
             // get the HTML code of this view
-            var listofcoops = db.CoopDetails.Where(x => x.Approval == "Approved").ToList();
+            var listofcoops = db.CoopDetails.Where(x => x.Approval == "Approved").ToList().Take(10);
             string htmlToConvert = RenderViewAsString("ListOfCoops", listofcoops);
 
             // the base URL to resolve relative images and css

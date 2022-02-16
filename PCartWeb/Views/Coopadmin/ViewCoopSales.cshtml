@@ -14,23 +14,24 @@
 
 @using (Html.BeginForm())
 {
-<div class="custom-form-1 custom-container w-100 col-4" id="convertThisPageButtonDiv2">
-    <h4>Coop Sales</h4>
-    <hr />
-    <div class="form-group">
-        <p>View By: </p>
-        <input type="radio" id="week" name="ViewBy" value="Weekly">
-        <label for="week">Weekly</label>
-        <br>
-        <input type="radio" id="month" name="ViewBy" value="Monthly">
-        <label for="month">Monthly</label>
-        <br>
-        <input type="radio" id="year" name="ViewBy" value="Yearly">
-        <label for="year">Yearly</label>
-        <br /> <br />
-        <input name="submit" type="submit" id="submit" value="Apply" class="btn btn-default" />
+    <div class="custom-form-1 custom-container w-100 col-4" id="convertThisPageButtonDiv2">
+        <h4>Coop Sales</h4>
+        <hr />
+        <div class="form-group">
+            <p>View By: </p>
+            <input type="radio" id="week" name="ViewBy" value="Weekly">
+            <label for="week">Weekly</label>
+            <br>
+            <input type="radio" id="month" name="ViewBy" value="Monthly">
+            <label for="month">Monthly</label>
+            <br>
+            <input type="radio" id="year" name="ViewBy" value="Yearly">
+            <label for="year">Yearly</label>
+            <br /> <br />
+            <input name="submit" type="submit" id="submit" value="Apply" class="btn btn-default" />
+        </div>
     </div>
-</div>}
+}
 
 
 
@@ -43,15 +44,16 @@
 
 @using (Html.BeginForm("ConvertableToPDF", "Coopadmin", FormMethod.Post, new { enctype = "multipart/form-data", id = "convertForm" }))
 {
-<div id="convertThisPageButtonDiv">
-    <input type="submit" value="Convert This Page To PDF" class="btn btn-danger" />
-    <input type="hidden" value="@ViewBag.ViewBy" id="thedate" name="toshow" />
-</div> if (Model.SalesReports != null)
-{
-<script>
-    var selected = document.querySelector('input[name="ViewBy"]:checked').value;
-    $('#thedate').val(selected);
-</script>
+    <div id="convertThisPageButtonDiv">
+        <input type="submit" value="Convert This Page To PDF" class="btn btn-danger" />
+        <input type="hidden" value="@ViewBag.ViewBy" id="thedate" name="toshow" />
+    </div> 
+    if (Model.SalesReports != null)
+    {
+        <script>
+            var selected = document.querySelector('input[name="ViewBy"]:checked').value;
+            $('#thedate').val(selected);
+        </script>
 
         <div class="table-responsive table-hover">
             <table class="table">
@@ -80,66 +82,75 @@
                     <th></th>
                 </tr>
 
-            @foreach (var item in Model.SalesReports)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderNo)
-                    </td>
-                    <th>
-                        @Html.DisplayFor(modelItem => item.CoopName)
-                    </th>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CustomerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalAmount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CommisionFee)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Delivery_fee)
-                    </td>
-                </tr>}
-                        </table>
-                    </div> }
-
-                if (Model.ViewBySales != null)
+                @foreach (var item in Model.SalesReports)
                 {
-<div class="table-responsive table-hover">
-    <table class="table">
-        <tr class="bg-dark">
-            <th>
-                COOP Name
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Total Price
-            </th>
-            <th></th>
-        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderNo)
+                        </td>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.CoopName)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CommisionFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Delivery_fee)
+                        </td>
+                    </tr>
+                    }
+                            
+                </table>
+                        
+        </div> 
+    }
 
-        @foreach (var item in Model.ViewBySales)
-        {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.CoopName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TotalPrice)
-    </td>
-</tr>}
-    </table>
-</div>}
+    if (Model.ViewBySales != null)
+    {
+        <div class="table-responsive table-hover">
+            <table class="table">
+                <tr class="bg-dark">
+                    <th>
+                        COOP Name
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Total Price
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.ViewBySales)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CoopName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalPrice)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "SalesBreakdownRep", new {  })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
 
 }
